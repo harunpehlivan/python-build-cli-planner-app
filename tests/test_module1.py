@@ -77,10 +77,12 @@ def test_task_2_overriding_text():
     test_task_1_regular_class_implementation()
 
     polite_reminder = reminder.PoliteReminder('test_string')
-    assert polite_reminder.text != polite_reminder.prefix + '<placeholder_text>',\
-        'You should override the `text` property with the concatenation'
-    assert polite_reminder.text == polite_reminder.prefix + 'test_string',\
-        '`PoliteReminder` should prefix the passed string with your prefix'
+    assert (
+        polite_reminder.text != f'{polite_reminder.prefix}<placeholder_text>'
+    ), 'You should override the `text` property with the concatenation'
+    assert (
+        polite_reminder.text == f'{polite_reminder.prefix}test_string'
+    ), '`PoliteReminder` should prefix the passed string with your prefix'
 
 # === TASK 3-4 ======================================================================
 
@@ -364,12 +366,14 @@ def test_task_11_add_reminder_isinstance():
         'You should remove the `issubclass` check'
 
     IDX_LINE_WITH_isinstance = None
-    IDX_LINE_WITH_constructor = None
-    for idx, line in enumerate(code_lines):
-        if re.findall(r'ReminderClass\(.*\)', line):
-            IDX_LINE_WITH_constructor = idx
-            break
-
+    IDX_LINE_WITH_constructor = next(
+        (
+            idx
+            for idx, line in enumerate(code_lines)
+            if re.findall(r'ReminderClass\(.*\)', line)
+        ),
+        None,
+    )
     for idx, line in enumerate(code_lines):
         if re.findall(r'isinstance\(.*\)', line):
             IDX_LINE_WITH_isinstance = idx
